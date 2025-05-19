@@ -1,0 +1,43 @@
+{
+  "name": "tagobot",
+  "version": "1.0.0",
+  "description": "TagoBot is an intelligent, fully automated content generation and publishing agent built to handle your brand’s digital presence—effortlessly and consistently.",
+  "main": "ntegrated with social platforms and self-hosted sites, TagoBot automatically:",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tagobuyhelp/tagobot.git"
+  },
+  "keywords": [
+    "AI auto-post agent",
+    "Social media automation",
+    "Auto content generator",
+    "AI social media manager",
+    "Tagobuy AI tools",
+    "Automatic Facebook posting"
+  ],
+  "author": "Tarik Aziz",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.9.0",
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "form-data": "^4.0.2",
+    "jsonwebtoken": "^9.0.2",
+    "moment-timezone": "^0.5.48",
+    "mongoose": "^8.15.0",
+    "node-cron": "^4.0.5",
+    "nodemailer": "^7.0.3",
+    "openai": "^4.100.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
