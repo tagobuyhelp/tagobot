@@ -47,6 +47,7 @@ import serviceRouter from './routes/service.routes.js';
 import scheduleRouter from './routes/schedule.routes.js';
 import credentialRouter from './routes/credential.routes.js';
 import postLogRouter from './routes/postlog.routes.js';
+import platformRouter from './routes/platform.routes.js';
 
 
 
@@ -58,6 +59,8 @@ app.use('/services', serviceRouter);
 app.use('/schedules', scheduleRouter);
 app.use('/credentials', credentialRouter);
 app.use('/postlogs', postLogRouter);
+app.use('/platforms', platformRouter);
+
 
 
 

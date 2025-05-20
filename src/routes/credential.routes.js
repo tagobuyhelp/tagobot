@@ -1,17 +1,11 @@
 import express from 'express';
-import { 
-    getCredentials, 
-    getCredentialById, 
-    createCredential,
-    updateCredential,
-    deleteCredential
-} from '../controllers/credential.controller.js';
-import { protect, authorize } from '../middleware/auth.middleware.js';
+import { getCredentials, getCredentialById, createCredential, updateCredential, deleteCredential } from '../controllers/credential.controller.js';
+import { protect } from '../middleware/auth.middleware.js';
 
 const router = express.Router();
 
+// Protect all credential routes
 router.use(protect);
-router.use(authorize('admin', 'administrator'));
 
 router.route('/')
     .get(getCredentials)

@@ -6,7 +6,7 @@ import mongoose from 'mongoose';
 
 export const getCredentials = asyncHandler(async (req, res) => {
     try {
-        const credentials = await Credential.find().select('-apiKey -accessToken');
+        const credentials = await Credential.find({ user: req.user._id }).populate('platform').select('-config');
         res.status(200).json(new ApiResponse(200, credentials, 'All credentials retrieved successfully'));
     } catch (error) {
         throw new ApiError(500, 'Error retrieving credentials', error.message);
@@ -15,7 +15,7 @@ export const getCredentials = asyncHandler(async (req, res) => {
 
 export const getCredentialById = asyncHandler(async (req, res) => {
     try {
-        const credential = await Credential.findById(req.params.id).select('-apiKey -accessToken');
+        const credential = await Credential.findOne({ _id: req.params.id, user: req.user._id }).populate('platform').select('-config');
         if (!credential) {
             throw new ApiError(404, 'Credential not found');
         }
@@ -30,7 +30,10 @@ export const getCredentialById = asyncHandler(async (req, res) => {
 
 export const createCredential = asyncHandler(async (req, res) => {
     try {
-        const credential = new Credential(req.body);
+        const credential = new Credential({
+            ...req.body,
+            user: req.user._id
+        });
         await credential.save();
         res.status(201).json(new ApiResponse(201, credential, 'Credential created successfully'));
     } catch (error) {
@@ -44,10 +47,13 @@ export const createCredential = asyncHandler(async (req, res) => {
 
 export const updateCredential = asyncHandler(async (req, res) => {
     try {
-        const credential = await Credential.findByIdAndUpdate(req.params.id, req.body, {
-            new: true,
-            runValidators: true
-        }).select('-apiKey -accessToken');
+        const { platform, label, config, isActive, notes } = req.body;
+        const credential = await Credential.findOneAndUpdate(
+            { _id: req.params.id, user: req.user._id },
+            { platform, label, config, isActive, notes },
+            { new: true, runValidators: true }
+        ).populate('platform').select('-config');
+        
         if (!credential) {
             throw new ApiError(404, 'Credential not found');
         }
@@ -66,7 +72,7 @@ export const updateCredential = asyncHandler(async (req, res) => {
 
 export const deleteCredential = asyncHandler(async (req, res) => {
     try {
-        const credential = await Credential.findByIdAndDelete(req.params.id);
+        const credential = await Credential.findOneAndDelete({ _id: req.params.id, user: req.user._id });
         if (!credential) {
             throw new ApiError(404, 'Credential not found');
         }
